@@ -1,0 +1,140 @@
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Scanner;
+
+public class Use {
+
+	private static Scanner KEYBOARD; 
+	
+	public static void main(String[] args) {
+		KEYBOARD = new Scanner(System.in);
+		System.out.println("Hello, Please select a username: ");
+		String username = KEYBOARD.nextLine();
+		
+		createHolidayPlan(username);
+	}
+	
+	public static void createHolidayPlan(String uName)//This method is used to create data for the holiday plan
+	{
+		String id,name,tName,destination, date, activity;
+		
+		ArrayList<Calendar> dob = new ArrayList<Calendar>();
+		ArrayList<String> travellers = new ArrayList<String>();//ArrayLists for dob & travellers
+		
+		Calendar start = Calendar.getInstance(); //Start date of the holiday
+		Calendar end = Calendar.getInstance(); //End date of the holiday
+		Calendar dobs = Calendar.getInstance(); //Used to gather data for the dob ArrayList
+		Calendar dateofbirth = Calendar.getInstance(); //Used to store the date of birth of the creator
+		
+		int travelNum, choice, day, month, year, numOfTravellers; //Day/Month/Year variables used to create a date
+		double cost;
+		
+		System.out.println("Welcome to the Holiday Creation Plan, " + uName + ".");//Start of the Holiday Creation Plan
+		
+		System.out.println("Please choose the Destination: ");//Start of Destination Data
+		System.out.println("1: North America");
+		System.out.println("2: South America");
+		System.out.println("3: Asia");
+		System.out.println("4: Europe");
+		System.out.println("5: Africa");
+		System.out.println("6: Oceania");
+		System.out.println("7: Antarctica");
+		
+		destination = KEYBOARD.nextLine();
+		
+		if (destination == "North America" && destination == "South America" && destination == "Asia" && destination == "Europe" && destination == "Africa"&& destination == "Oceania" && destination == "Antarctia" )
+		{
+			System.out.println("Valid");
+			ROW row = new ROW();
+		}
+		else
+		{
+			System.out.println("Invalid");
+		}
+
+		
+		System.out.println("What date does the holiday start on?");
+		start = grabDate("What day does it start on?", "What month is it in?", "What year is it in?");
+		
+		System.out.println("What date does the holiday end on?");
+		end = grabDate("What day does it start on?", "What month is it in?", "What year is it in?");
+		
+		
+		System.out.println("How many people are travelling, including yourself?"); // index 0 of dob == creator's birthday.
+		numOfTravellers = KEYBOARD.nextInt();
+		
+		for (int i = 0; i < numOfTravellers; i++) {
+			System.out.println("Please enter the information for traveller" + (i + 1));
+		
+			Calendar travellerDoB = grabDate("What day were you born on?", "What month were you born in?", "What year were you born in?");
+			
+			System.out.println("What is the traveller's name?");
+			String travellerName = KEYBOARD.next();
+			
+			dob.add(i, travellerDoB);
+			travellers.add(i, travellerName);
+		}
+		
+		System.out.println("Please choose the Activity: ");//Start of Destination Data
+		System.out.println("1: Hazardous");
+		System.out.println("2: Winter Sport");
+		
+		activity = KEYBOARD.nextLine();
+		
+		if (activity == "Hazardous")
+		{
+			System.out.println("Hazardous Selected");
+			
+			Hazardous Hazardous = new Hazardous();
+		}
+		else if (activity == "Winter Sport");
+		{
+			System.out.println("Skiing or Snowboarding");
+			activity = KEYBOARD.nextLine();
+			WinterSport WinterSport = new WinterSport();
+			
+		}
+			
+		
+	}
+	
+	public static void createPolicy(String id, String name, ArrayList<Calendar> dob, ArrayList<String> travellers, String destination, double cost) {
+		ArrayList<Policy> userPolicy = new ArrayList<Policy>();
+		ArrayList<HolidayPlan> holidays = new ArrayList<HolidayPlan>();//ArrayLists of Objects
+		Policy p;
+		HolidayPlan h;
+
+		int choice;
+
+		String policyNum, activity, equipment, lvlName;
+
+		h = new HolidayPlan(id, name, dob, travellers, destination, cost);//Creates the HolidayPlan object.
+
+		System.out.println("Please Policy Number: "); //Start of Policy creation Data
+		policyNum = KEYBOARD.nextLine();
+
+		System.out.println("Please choose the type of Policy you would like to apply for: ");//Policy Destination choice
+		
+		if(destination == "Europe")//Makes Standard Policy appear only if the destination is Europe. This is further validated in the next if statement.
+		{
+			System.out.println("1: Standard");
+		}
+	}
+	
+	public static Calendar grabDate(String dayPrompt, String monthPrompt, String yearPrompt) {
+		Calendar calendar = Calendar.getInstance();
+		int day, month, year;
+		
+		System.out.println(dayPrompt);
+		day = KEYBOARD.nextInt();
+		
+		System.out.println(monthPrompt);
+		month = KEYBOARD.nextInt();
+		
+		System.out.println(yearPrompt);
+		year = KEYBOARD.nextInt();
+		
+		calendar.set(year, month, day);
+		return calendar;
+	}
+}
