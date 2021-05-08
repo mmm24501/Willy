@@ -1,0 +1,58 @@
+import java.util.Calendar;
+
+class WinterSport extends Policy 
+{
+    protected double dailyrate;
+    protected String destination;
+    protected int travelNum;
+    protected String activity;
+    protected String Equipment;
+    
+    public WinterSport() 
+    {
+        super();
+        
+        this.destination = null;
+        this.travelNum = 0;
+        
+    }
+    
+    public WinterSport(String policyNum, String name, Calendar dob, Calendar sDate, Calendar eDate, String status, double dailyRate, double premium, String holidayPlanID, String activity, String destination, int travelNum)
+    {
+        super(policyNum, holidayPlanID, name, dob, sDate, eDate);
+        
+        this.activity = activity;
+        this.destination = destination;
+        this.travelNum = travelNum;
+          
+
+    }
+    
+    public void calPremium()
+    {
+        if(activity == "Skiing")
+        {
+            dailyrate = 12;
+        }
+        if(activity == "Snowboarding")
+        {
+            dailyrate = 13;
+        }
+        if(activity == "Equipment")
+        {
+            dailyrate = 40;
+        }
+        
+      
+        
+        premium = travelNum * dailyrate;
+    }
+    
+    public String toString()
+    {
+        String str = super.toString();
+        str = str + "Destination: " + destination;
+        str = str + "\nNumber of Travellers: " + travelNum;
+        return str;
+    }
+}
