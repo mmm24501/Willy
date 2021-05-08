@@ -1,0 +1,169 @@
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+class Policy {
+
+	protected String policyNum, name,status;
+	protected Calendar dob, sDate, eDate;
+	protected double dailyRate, premium;
+	protected String holidayPlanID;
+
+	public Policy(){
+		policyNum = " ";
+		name = " ";
+		dob = null;
+		sDate = null;
+		eDate = null;
+		status = "pending";
+		dailyRate = 0;
+		premium = 0;
+		holidayPlanID = "";
+	}
+
+	public Policy(String policyNum,String holidayPlanID,String name, Calendar dob, Calendar sDate, Calendar eDate ){
+		this.policyNum = policyNum;
+		this.name = name;
+		this.dob = dob;
+		this.sDate = sDate;
+		this.eDate = eDate;
+		status = "pending";
+		dailyRate = 4;
+		premium = 0;
+		this.holidayPlanID = holidayPlanID;
+	}
+
+	//set methods
+    public void setPolicyNum (String policyNum){
+    	this.policyNum = policyNum;    	
+    }
+
+    public void setName (String name){
+    	this.name = name;    	
+    }
+
+    public void setDob (Calendar dob){
+    	this.dob = dob;
+    }
+
+    public void setSDate (Calendar sDate){
+    	this.sDate = sDate;
+    }
+
+    public void setEDate (Calendar eDate){
+    	this.eDate = eDate;
+    }
+
+    public void setStatus (String status)
+	{
+   		this.status = status;
+    }
+
+    public void setDailyRate (double dailyRate){
+    	this.dailyRate = dailyRate;
+    }
+
+    public void setPremium (double premium){
+    	this.premium = premium;
+    }
+
+     public void setPortfolio (String holidayPlanID){
+    	this.holidayPlanID = holidayPlanID;
+    }
+
+    //get methods
+	public String getPolicyNum(){
+		return policyNum;
+	}
+
+	public String getName(){
+		return name;
+	}
+
+	public Calendar getDob(){
+		return dob;
+	}
+
+	public Calendar getSDate(){
+		return sDate;
+	}
+
+	public Calendar getEDate(){
+		return eDate;
+	}
+
+	public String getStatus(){
+		return status;
+	}
+
+	public double getDailyRate(){
+		return dailyRate;
+	}
+
+	public double getPremium(){
+		return premium;
+	}
+
+	public String getHolidayPlanID(){
+		return holidayPlanID;
+	}
+
+	public void cancelPolicy(Calendar eDate){
+		this.eDate = eDate;
+		status = "CANCELLED";
+	}
+
+	public void calPremium(){
+		//work out number of days of policy and calculate premium based on a daily rate 
+		if(sDate!= null && eDate!= null)
+		{
+			long time1 = sDate.getTimeInMillis();
+			long time2 = eDate.getTimeInMillis();
+			long diff = time2 - time1;
+			long days = diff/1000/60/60/24;
+
+			premium =days * dailyRate;
+		}
+		else
+			premium = 0;
+	}
+
+	public String toString(){
+
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+
+		String str = " ";
+		str = str + "Policy Number: " + policyNum + "\n";
+		str = str + "Name: " + name + "\n";
+
+		if (dob!= null)
+		{
+			str = str + "DOB: "+ df.format(dob) + "\n";
+		}
+		if (sDate!= null)
+		{
+			str = str + "Start Date: "+ df.format(sDate) + "\n";
+		}
+		if (eDate!= null)
+		{
+			str = str + "Start Date: "+ df.format(eDate) + "\n";
+		}
+		str = str + "Policy Type: " + this.getClass().getName() + "\n";
+		str = str + "Policy Status: " + status + "\n";
+		str = str + "Policy Daily Rate: " + dailyRate + "\n";
+		if (holidayPlanID!= "")
+		{
+			str = str + "Related Portfolio Reference: " + holidayPlanID + "\n";
+		}
+		str = str + "Policy Premium: " + premium + "\n";
+		return str;
+	}
+
+}
+
+
+
+
+
+
