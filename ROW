@@ -1,0 +1,51 @@
+import java.util.Calendar;
+class ROW extends Policy 
+{
+    protected double dailyrate;
+    protected String destination;
+    protected int travelNum;
+	public ROW() 
+    {
+        super();
+        destination = null;
+        travelNum = 0;
+    }
+    public ROW(String policyNum, String name, Calendar dob, Calendar sDate, Calendar eDate, String status, double dailyRate, double premium, String holidayPlanID, String activity, String destination, int travelNum)
+    {
+        super(policyNum, holidayPlanID, name, dob, sDate, eDate);
+        this.destination = destination;
+        this.travelNum = travelNum;
+      
+    }
+    public void calPremium()
+    {
+        if(destination == "North America")
+        {
+            dailyrate = 7;
+        }
+            if(destination == "South America")
+            {
+            	dailyrate = 8;
+            }
+            if(destination == "Asia")
+            {
+            	dailyrate = 9;
+            }
+            
+        else
+        {
+            dailyrate = 10;
+        }
+        
+      
+        
+        premium = travelNum * dailyrate;
+    }
+    public String toString()
+    {
+        String str = super.toString();
+        str = str + "Destination: " + destination;
+        str = str + "\nNumber of Travellers: " + travelNum;
+        return str;
+    }
+}
