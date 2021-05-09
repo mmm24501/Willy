@@ -4,11 +4,14 @@ import java.util.Scanner;
 
 public class Use {
 
-	private static Scanner KEYBOARD; 
+	private static Scanner KEYBOARD; 						//Allows for Keyboard
+	private static ArrayList<HolidayPlan> HOLIDAY_PLANS;
 	
 	public static void main(String[] args) {
-		KEYBOARD = new Scanner(System.in);
-		System.out.println("Hello, Please select a username: ");
+		KEYBOARD = new Scanner(System.in);					//Allows for Keyboard
+		HOLIDAY_PLANS = new ArrayList<>();					//Starts new Array List
+		
+		System.out.println("Hello, Please select a username: ");		//Broadcast Start of program
 		String username = KEYBOARD.nextLine();
 		
 		createHolidayPlan(username);
@@ -16,7 +19,7 @@ public class Use {
 	
 	public static void createHolidayPlan(String uName)//This method is used to create data for the holiday plan
 	{
-		String id,name,tName,destination, date, activity;
+		String id,name = null,tName,destination, date, activity;
 		
 		ArrayList<Calendar> dob = new ArrayList<Calendar>();
 		ArrayList<String> travellers = new ArrayList<String>();//ArrayLists for dob & travellers
@@ -27,9 +30,25 @@ public class Use {
 		Calendar dateofbirth = Calendar.getInstance(); //Used to store the date of birth of the creator
 		
 		int travelNum, choice, day, month, year, numOfTravellers; //Day/Month/Year variables used to create a date
-		double cost;
+		double cost = 0;
 		
 		System.out.println("Welcome to the Holiday Creation Plan, " + uName + ".");//Start of the Holiday Creation Plan
+		
+		System.out.println("Would you like to remove a Holiday? Please say yes or no.");	//Broadcast Start of program
+		String isRemoving = KEYBOARD.nextLine();
+		
+		if (isRemoving.equalsIgnoreCase("yes")) {
+			System.out.println("What is the holiday ID you'd like to remove?"); 	//Broadcasts
+			String holidayId = KEYBOARD.nextLine();
+			
+			if (invalidateHoliday(holidayId)) {
+				System.out.println("Holiday has been removed.");     	//Broadcasts
+			} else {
+				System.out.println("No holiday with that ID has been found.");       	//Broadcasts
+			}
+			
+			return;
+		}
 		
 		System.out.println("Please choose the Destination: ");//Start of Destination Data
 		System.out.println("1: North America");
@@ -41,100 +60,102 @@ public class Use {
 		System.out.println("7: Antarctica");
 		
 		destination = KEYBOARD.nextLine();
-		
-		if (destination == "North America" && destination == "South America" && destination == "Asia" && destination == "Europe" && destination == "Africa"&& destination == "Oceania" && destination == "Antarctia" )
-		{
-			System.out.println("Valid");
-			ROW row = new ROW();
+	
+		while (!(destination.equalsIgnoreCase("North America") || destination.equalsIgnoreCase("South America") || destination.equalsIgnoreCase("Asia") 
+				|| destination.equalsIgnoreCase("Europe") || destination.equalsIgnoreCase("Africa") || destination.equalsIgnoreCase("Oceania") || destination.equalsIgnoreCase("Antarctia")
+		)) {
+			System.out.println("Sorry, " + destination + " is not a valid option.");     //Allowing the user to re-enter data if wrong
+			destination = KEYBOARD.nextLine();
 		}
-		else
-		{
-			System.out.println("Invalid");
-		}
-
 		
-		System.out.println("What date does the holiday start on?");
-		start = grabDate("What day does it start on?", "What month is it in?", "What year is it in?");
+		ROW row = new ROW();
+		
+		System.out.println("What date does the holiday start on?");					//Broadcasts Question
+		start = grabDate("What day does it start on?", "What month is it in?", "What year is it in?");		//Broadcasts Question
 		
 		System.out.println("What date does the holiday end on?");
-		end = grabDate("What day does it start on?", "What month is it in?", "What year is it in?");
+		end = grabDate("What day does it start on?", "What month is it in?", "What year is it in?");			//Broadcasts Question
 		
 		
 		System.out.println("How many people are travelling, including yourself?"); // index 0 of dob == creator's birthday.
 		numOfTravellers = KEYBOARD.nextInt();
 		
 		for (int i = 0; i < numOfTravellers; i++) {
-			System.out.println("Please enter the information for traveller" + (i + 1));
+			System.out.println("Please enter the information for traveller" + (i + 1));			//Broadcasts Question
 		
-			Calendar travellerDoB = grabDate("What day were you born on?", "What month were you born in?", "What year were you born in?");
+			Calendar travellerDoB = grabDate("What day were you born on?", "What month were you born in?", "What year were you born in?");			//Broadcasts Question
 			
-			System.out.println("What is the traveller's name?");
-			String travellerName = KEYBOARD.next();
+			System.out.println("What is the traveller's name?");		//Broadcasts Question
+			String travellerName = KEYBOARD.nextLine();
 			
 			dob.add(i, travellerDoB);
 			travellers.add(i, travellerName);
 		}
 		
 		System.out.println("Please choose the Activity: ");//Start of Destination Data
-		System.out.println("1: Hazardous");
+		System.out.println("1: Hazardous");		
 		System.out.println("2: Winter Sport");
 		
 		activity = KEYBOARD.nextLine();
 		
-		if (activity == "Hazardous")
-		{
-			System.out.println("Hazardous Selected");
-			
-			Hazardous Hazardous = new Hazardous();
-		}
-		else if (activity == "Winter Sport");
-		{
-			System.out.println("Skiing or Snowboarding");
-			activity = KEYBOARD.nextLine();
-			WinterSport WinterSport = new WinterSport();
-			
-		}
-			
+		System.out.println("Please enter a Policy ID. This should be unique.");			//Broadcasts Question
+		String policyId = KEYBOARD.nextLine();
 		
-	}
-	
-	public static void createPolicy(String id, String name, ArrayList<Calendar> dob, ArrayList<String> travellers, String destination, double cost) {
-		ArrayList<Policy> userPolicy = new ArrayList<Policy>();
-		ArrayList<HolidayPlan> holidays = new ArrayList<HolidayPlan>();//ArrayLists of Objects
-		Policy p;
-		HolidayPlan h;
-
-		int choice;
-
-		String policyNum, activity, equipment, lvlName;
-
-		h = new HolidayPlan(id, name, dob, travellers, destination, cost);//Creates the HolidayPlan object.
-
-		System.out.println("Please Policy Number: "); //Start of Policy creation Data
-		policyNum = KEYBOARD.nextLine();
-
+		System.out.println("Please enter a Holiday ID. This should be unique.");			//Broadcasts Question
+		String holidayId = KEYBOARD.nextLine();
+					
 		System.out.println("Please choose the type of Policy you would like to apply for: ");//Policy Destination choice
 		
-		if(destination == "Europe")//Makes Standard Policy appear only if the destination is Europe. This is further validated in the next if statement.
+		double dailyRate = 14;   //Assigns Value
+		double premium = 14; 
+		Calendar mainTravellerDob = dob.get(0);
+		String travellerName = travellers.get(0);
+		String defaultStatus = "SETTING";
+		
+		Policy foundPolicy;
+
+		if (activity.equalsIgnoreCase("Hazardous"))
 		{
-			System.out.println("1: Standard");
+			System.out.println("Hazardous Selected");	//Broadcasts Question
+			foundPolicy = new Hazardous(policyId, travellerName , mainTravellerDob, start, end,  defaultStatus, dailyRate, premium, holidayId, activity, destination, travellers.size());
 		}
+		else if (activity.equalsIgnoreCase("Winter Sport"))	
+		{
+			System.out.println("Skiing or Snowboarding");	//Broadcasts Question
+			activity = KEYBOARD.nextLine();
+			foundPolicy = new WinterSport(policyId, travellerName, mainTravellerDob, start, end, defaultStatus, dailyRate, premium, holidayId, activity, destination, travellers.size());
+			
+		} else {
+			System.out.println("Invalid option: " + activity);
+			return;
+		}
+		
+		HolidayPlan holidayPlan = new HolidayPlan(holidayId, name, dob, travellers, destination, cost); // TODO: figure out cost.
+		holidayPlan.setPolicy(foundPolicy);
+		HOLIDAY_PLANS.add(holidayPlan);
+		System.out.println("You have successfully created a Holiday Plan.");	//Broadcasts Question
 	}
 	
-	public static Calendar grabDate(String dayPrompt, String monthPrompt, String yearPrompt) {
+
+
+	public static Calendar grabDate(String dayPrompt, String monthPrompt, String yearPrompt) { //So can reuse code for each date
 		Calendar calendar = Calendar.getInstance();
 		int day, month, year;
 		
-		System.out.println(dayPrompt);
+		System.out.println(dayPrompt);	//Broadcasts Question
 		day = KEYBOARD.nextInt();
 		
-		System.out.println(monthPrompt);
+		System.out.println(monthPrompt);	//Broadcasts Question
 		month = KEYBOARD.nextInt();
 		
-		System.out.println(yearPrompt);
-		year = KEYBOARD.nextInt();
+		System.out.println(yearPrompt);	//Broadcasts Question
+		year = KEYBOARD.nextInt();	
 		
-		calendar.set(year, month, day);
+		calendar.set(year, month, day);	//Broadcasts Question
 		return calendar;
+	}
+	
+	public static boolean invalidateHoliday(String holidayId) {
+		return HOLIDAY_PLANS.removeIf(plan -> plan.getId().equalsIgnoreCase(holidayId));
 	}
 }
